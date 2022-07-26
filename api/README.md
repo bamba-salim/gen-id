@@ -62,3 +62,9 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Ressource
+
+https://www.zoho.com/inventory/sku-generator/
+https://www.tradegecko.com/blog/inventory-management/managing-inventory-with-skus
+https://www.dcode.fr/identifiant-uuid#q2

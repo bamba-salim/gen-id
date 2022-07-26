@@ -7,18 +7,29 @@ use Throwable;
 
 class OptionsGeneratorDTO
 {
-    private string $type;
-    private int $size;
-    private string $format;
-    private string $prefixe;
-    private string $suffixe;
+    public string $type;
+    public int $size;
+    public string $format;
+    public string $prefixe;
+    public string $suffixe;
 
     public static function build($optionsInputs, $type)
     {
         $options = new OptionsGeneratorDTO();
         $options->setType($type);
         $options->setSize(self::matchSize($optionsInputs, $type));
-        $options->setFormat($optionsInputs->format);
+        $options->setFormat(self::matchFormat($optionsInputs));
+        $options->setPrefixe($optionsInputs->prefixe ?? '');
+        $options->setSuffixe($optionsInputs->suffixe ?? '');
+        return $options;
+    }
+
+    public static function buildV2($optionsInputs, $type)
+    {
+        $options = new OptionsGeneratorDTO();
+        $options->setType($type);
+        $options->setSize(self::matchSize($optionsInputs, $type));
+        $options->setFormat(self::matchFormatV2($optionsInputs, $type));
         $options->setPrefixe($optionsInputs->prefixe ?? '');
         $options->setSuffixe($optionsInputs->suffixe ?? '');
         return $options;
@@ -108,13 +119,33 @@ class OptionsGeneratorDTO
     private static function matchSize($options, $type)
     {
         try {
-            return DataBaseConstants::ID_TYPE_SIZE[$type][$options->size];
+            return DataBaseConstants::ID_TYPE_SIZE[$type][strtolower($options->size)];
         } catch (Throwable $e) {
             return match ($type) {
                 'uid' => 6,
                 'sku' => 8,
                 'serial' => 3
             };
+        }
+
+    }
+
+    private static function matchFormat($options)
+    {
+        try {
+            return strtolower($options->format);
+       } catch (Throwable $e) {
+           return "DA";
+        }
+
+    }
+
+    private static function matchFormatV2($options, $type)
+    {
+        try {
+            return DataBaseConstants::ID_TYPE_FORMAT[$type][$options->format];
+        } catch (Throwable $e) {
+            return "DA";
         }
 
     }

@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\generator\GenerateIdCTRL;
-use App\Http\Controllers\generator\Serialcontroller;
-use App\Http\Controllers\generator\SKUcontroller;
-use App\Http\Controllers\generator\UIDcontroller;
+use App\Http\Controllers\generator\GestionGeneratorCTRL;
+use App\Http\Controllers\site\GestionArtisanCTRL;
+use App\Http\Middleware\AutorizeArtisanValid;
 use App\Http\Middleware\CheckApiKeyToken;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('gen')->middleware(CheckApiKeyToken::class)->group(function () {
-    Route::post("/v1/{type}", [GenerateIdCTRL::class, "generate"]);
+
+Route::prefix('artisan')->middleware(AutorizeArtisanValid::class)->group(function () {
+    Route::get("/migrate", [GestionArtisanCTRL::class, 'migrate']);
+    Route::get("/migrate-reset", [GestionArtisanCTRL::class, 'reset']);
+    Route::get("/migrate-refresh", [GestionArtisanCTRL::class, 'refresh']);
+    Route::get('/clear', [GestionArtisanCTRL::class, 'clear']);
 });
+
+

@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\generator\GestionGeneratorCTRL;
+use App\Http\Middleware\CheckApiKeyToken;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,5 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+ * GENERATOR CALL
+ */
+Route::prefix('gen')->middleware(CheckApiKeyToken::class)->group(function () {
+    Route::get("v1/{type}", [GestionGeneratorCTRL::class, "generate"]);
+    Route::get("v2/{type}", [GestionGeneratorCTRL::class, "generateV2"]);
+});
 
-Route::redirect('/', "/api");
+/*
+ * SITE CALL
+ */
+Route::prefix('ws')->group(function () {
+    Route::get('user', function () {
+        return response()->json(["user" => '54']);
+    });
+});

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CheckApiKeyToken
@@ -12,16 +13,21 @@ class CheckApiKeyToken
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function handle(Request $request, Closure $next)
     {
-        //dd($request);
         $token = $request->header('api-user-token');
-        if($token != null){
+        $apiToken = $request->get('key');
+
+        // todo: check if api key exist
+
+        // todo check if api key can works
+
+        if($token != null || $apiToken != null){
             return $next($request);
         }else{
-            abort(403, "Invalid token !");
+            return new JsonResponse(["message"=> "invalid token"],403);
         }
     }
 }
