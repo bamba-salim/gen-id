@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SubscriptionType extends Model
 {
     use HasFactory;
+
 }

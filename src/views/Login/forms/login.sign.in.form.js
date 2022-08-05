@@ -15,14 +15,8 @@ function LoginSignInForm() {
 
         if(LodashUtils.isEmpty(loginErrors))  setLoginErrors([])
         LoginService.signIn(values).then(res => {
-            if (res.ERROR) setLoginErrors(res.ERROR.message)
-            if (res.SUCCESS){
-                localStorage.setItem('success', res.SUCCESS.description)
+            console.log(res)
 
-                localStorage.setItem('user', JSON.stringify(res.user))
-                navigate('/')
-                window.location.reload();
-            }
         })
     }
     const validationSchema = Yup.object({

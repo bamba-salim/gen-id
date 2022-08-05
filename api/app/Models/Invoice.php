@@ -5,20 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserKeyword extends Model
+class Invoice extends Model
 {
+
     use HasFactory;
 
     public function user(){
         return $this->hasOne(User::class);
     }
 
-    public function type(){
+    public function subsciption(){
+        return $this->hasOne(Subscription::class);
+    }
 
-        return $this->belongsTo(UserKeywordType::class,'user_keyword_type_id','id');
+    public function paymentMethod(){
+        return $this->belongsTo(PaymentMethod::class);
     }
 
     protected $hidden = [
-        'user_id'
+        'payment_method_id'
     ];
+
 }

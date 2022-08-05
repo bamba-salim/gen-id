@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class   ApiKey extends Model
+class UserKeywordType extends Model
 {
     use HasFactory;
 
-    public function subscriptions(){
-       return $this->hasMany(Subscription::class);
+    public function keywords()
+    {
+        return $this->hasMany(UserKeyword::class);
     }
 }

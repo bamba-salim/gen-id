@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\generator\GestionGeneratorCTRL;
-use App\Http\Middleware\CheckApiKeyToken;
+use App\Http\Controllers\GestionGeneratorCTRL;
+use App\Http\Controllers\GestionSubscriptionCTRL;
+use App\Http\Controllers\UsersController;
+use App\Http\Repositories\UserRepository;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,19 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*
- * GENERATOR CALL
- */
-Route::prefix('gen')->middleware(CheckApiKeyToken::class)->group(function () {
-    Route::get("v1/{type}", [GestionGeneratorCTRL::class, "generate"]);
-    Route::get("v2/{type}", [GestionGeneratorCTRL::class, "generateV2"]);
-});
 
 /*
  * SITE CALL
  */
-Route::prefix('ws')->group(function () {
-    Route::get('user', function () {
-        return response()->json(["user" => '54']);
-    });
+Route::get('users', [UsersController::class, 'fetchRoles']);
+Route::post('sign-in', [UsersController::class, 'signInUser'])->middleware("missingArgs:loginFormBean");
+Route::get('generate-user-api-key', [GestionGeneratorCTRL::class, 'generateApiKey']);
+Route::post("create-new-subscription", [GestionSubscriptionCTRL::class, 'create_new_subscriptions']);
+
+Route::prefix('fake')->group(function () {
+    Route::get('create-user', [UserRepository::class, 'createFakeUser']);
 });

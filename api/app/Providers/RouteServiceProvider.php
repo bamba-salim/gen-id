@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AutorizeArtisanValid;
+use App\Http\Middleware\CheckApiKeyToken;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -33,7 +35,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::middleware(AutorizeArtisanValid::class)
+                ->prefix('artisan')
+                ->group(base_path('routes/console.php'));
+
+            Route::middleware(CheckApiKeyToken::class)
+                ->prefix('gen')
+                ->group(base_path('routes/generator.php'));
+
+
+            Route::prefix('ws')
                 ->group(base_path('routes/web.php'));
         });
     }
@@ -45,6 +56,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting()
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });

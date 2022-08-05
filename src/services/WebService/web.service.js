@@ -3,7 +3,7 @@ import AuthService from "../Routing/auth.service";
 
 export const ws = axios.create({
     baseURL: `${process.env.REACT_APP_API_URL}`,
-    headers: {'session_user': AuthService.sessionUser}
+    headers: {'api-user-token': "8f7097b47a9f3a5e-b40905c39fe8903e-774e056353193794-b7d929e9ea853bb3"}
 
 })
 
@@ -19,7 +19,7 @@ export const GET = async (url, params = {}) => {
 }
 
 export const POST = (url, data) => {
-    return ws.post(url, {data}, { headers: { 'Content-Type': 'application/x-www-form-urlencoded'} })
+        return ws.post(url, data)
         .then(res => {
             if (res.data.error) console.log(res.data)
             return res.data

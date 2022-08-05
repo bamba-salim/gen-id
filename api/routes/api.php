@@ -1,11 +1,5 @@
 <?php
 
-use App\Http\Controllers\generator\GestionGeneratorCTRL;
-use App\Http\Controllers\site\GestionArtisanCTRL;
-use App\Http\Middleware\AutorizeArtisanValid;
-use App\Http\Middleware\CheckApiKeyToken;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,11 +12,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('artisan')->middleware(AutorizeArtisanValid::class)->group(function () {
-    Route::get("/migrate", [GestionArtisanCTRL::class, 'migrate']);
-    Route::get("/migrate-reset", [GestionArtisanCTRL::class, 'reset']);
-    Route::get("/migrate-refresh", [GestionArtisanCTRL::class, 'refresh']);
-    Route::get('/clear', [GestionArtisanCTRL::class, 'clear']);
-});
 
 

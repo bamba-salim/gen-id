@@ -8,7 +8,7 @@ export default class UserService {
 
     static updateUser = (userData) => POST('update-user', {userDto: userData}); // todo: a revoir
 
-    static signIn = (userData) => POST('sign-in', {loginFormBean: userData});
+    static signIn = (userData) => POST('sign-in', userData);
 
     static signUp = (values) => POST('sign-up', {signUpFormBean: values});
 

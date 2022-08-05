@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\GestionArtisanCTRL;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,21 @@ use Illuminate\Support\Facades\Artisan;
 | simple approach to interacting with each command's IO methods.
 |
 */
+
+
+Route::controller(GestionArtisanCTRL::class)->group(function(){
+
+    Route::get('/clear', 'clear');
+
+    Route::prefix('migrate')->group(function (){
+        Route::get("/", 'migrate');
+        Route::get("reset", 'reset');
+        Route::get("force-reset", 'force_reset');
+        Route::get("refresh", 'refresh');
+    });
+
+});
+
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
